@@ -1,0 +1,146 @@
+{
+  "edicaoAtual": "2026-12",
+  "edicoes": [
+    {
+      "id": "2026-13",
+      "numero": 13,
+      "ano": 2026,
+      "data": "21 de agosto de 2026",
+      "tema": "Projeto Webjornal DS",
+      "destaquePrincipal": {
+        "id": "iniciativa-para-projetos-reais-com-webjornal-2026",
+        "categoria": "Integração DS + Enfermagem",
+        "titulo": "Iniciativa para projetos reais com Webjornal",
+        "resumo": "Iniciativa para projetos reais com Webjornal para engajamento entre alunos, tutores e instituição movimenta ações conjuntas.",
+        "imagem": "https://images.pexels.com/photos/17706651/pexels-photo-17706651.jpeg",
+        "autor": "Redação",
+        "tempoLeitura": "4 min",
+        "conteudo": "<p>Intenção é apresentar experiência completa entre a comunidade acadêmica</p>"
+      },
+      "materiaDS": {
+        "id": "jogos-digitais-2026",
+        "categoria": "Desenvolvimento de Sistemas",
+        "titulo": "Jogos digitais",
+        "resumo": "Jogos com foco educacional",
+        "imagem": "https://images.pexels.com/photos/7915239/pexels-photo-7915239.jpeg",
+        "autor": "Cristiano A.",
+        "tempoLeitura": "3 min",
+        "conteudo": "<p>Os jogos digitais <strong>educativos</strong> são ferramentas que combinam aprendizagem e diversão, tornando o processo de ensino mais interativo e envolvente. Por meio de desafios, missões e atividades, os estudantes podem desenvolver habilidades como raciocínio lógico, criatividade, concentração e resolução de problemas, enquanto aprendem novos conteúdos de forma prática e dinâmica.</p>"
+      },
+      "materiaEnfermagem": {
+        "id": "os-sistemas-informatizados-em-hospitais-2026",
+        "categoria": "Enfermagem",
+        "titulo": "Os sistemas informatizados em hospitais",
+        "resumo": "Os sistemas informatizados em hospitais são fundamentais para organizar e agilizar os serviços de saúde",
+        "imagem": "https://images.pexels.com/photos/17940257/pexels-photo-17940257.jpeg",
+        "autor": "Aline Rocha",
+        "tempoLeitura": "3 min",
+        "conteudo": "<p>Os sistemas informatizados em hospitais são fundamentais para organizar e agilizar os serviços de saúde. Eles permitem o armazenamento e o acesso rápido a informações dos pacientes, auxiliam no controle de consultas, exames, medicamentos e internações, além de facilitar a comunicação entre os profissionais. Dessa forma, contribuem para reduzir erros, melhorar a tomada de decisões e proporcionar um atendimento mais seguro, eficiente e de qualidade aos pacientes.</p>"
+      },
+      "enquete": {
+        "pergunta": "Você acredita que a IA vai gerar desemprego em massa?",
+        "opcoes": [
+          "Sim",
+          "Não"
+        ],
+        "linkVotacao": "https://forms.gle/zoZdgEwreqKW3y2D6",
+        "qrCodeImg": "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fforms.gle%2FzoZdgEwreqKW3y2D6"
+      }
+    },
+    {
+      "id": "2026-12",
+      "numero": 12,
+      "ano": 2026,
+      "data": "31 de agosto de 2026",
+      "tema": "Inovação e Tecnologia em Saúde",
+      "destaquePrincipal": {
+        "id": "prontuario-eletronico-integrado-2026",
+        "categoria": "Integração DS + Enfermagem",
+        "titulo": "Alunos criam prontuário eletrônico que reduz tempo de triagem em 30%",
+        "resumo": "Projeto interdisciplinar entre turmas de Desenvolvimento de Sistemas e Enfermagem resulta em ferramenta funcional adotada na clínica-escola.",
+        "imagem": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&auto=format&fit=crop&q=60",
+        "autor": "Redação Integrada (Prof. Carlos & Alunos)",
+        "tempoLeitura": "5 min",
+        "conteudo": "<p class='lead'>Uma iniciativa conjunta entre os cursos técnicos de Desenvolvimento de Sistemas (DS) e Enfermagem alcançou uma marca histórica esta semana: a implementação piloto do prontuário digital <em>'CuraSys'</em> no ambulatório da instituição.</p><p>O sistema foi desenhado para resolver um gargalo crítico apontado pelos estudantes de Enfermagem: a lentidão no registro manual dos sinais vitais e a perda de histórico clínico durante a troca de turnos no estágio supervisionado.</p><h2>Desenvolvimento Centrado no Usuário</h2><p>Durante quatro meses, a equipe de DS acompanhou a rotina dos alunos de Enfermagem, mapeando cada etapa do atendimento de urgência e da triagem com protocolo de Manchester.</p><p><em>'Não adiantava criar um software visualmente bonito se a interface exigisse dez cliques para cadastrar uma pressão arterial. Ouvir os futuros enfermeiros foi a chave do sucesso'</em>, relata Maria Silva, aluna do 6º semestre de DS e líder da equipe de programação.</p><h2>Segurança e Conformidade com a LGPD</h2><p>O software conta com criptografia de ponta a ponta e controle de permissões por perfil, garantindo que apenas profissionais autorizados tenham acesso aos históricos clínicos simulados, em estrita conformidade com a Lei Geral de Proteção de Dados (LGPD).</p>"
+      },
+      "materiaDS": {
+        "id": "hackathon-saude-digital-2026",
+        "categoria": "Desenvolvimento de Sistemas",
+        "titulo": "1º Hackathon de Saúde Digital premia soluções para gestão de leitos",
+        "resumo": "Oito equipes disputaram maratona de 48 horas focada em inteligência artificial e otimização hospitalar.",
+        "imagem": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&auto=format&fit=crop&q=60",
+        "autor": "Lucas Andrade (4º DS)",
+        "tempoLeitura": "4 min",
+        "conteudo": "<p>No último final de semana, o laboratório de informática foi palco do 1º Hackathon de Saúde Digital da escola. A proposta foi clara: criar protótipos de alta fidelidade para desafogar gargalos hospitalares.</p><p>O time vencedor, intitulado <strong>'MedQueue'</strong>, desenvolveu um algoritmo preditivo que estima o tempo de espera dos pacientes baseado no fluxo de entrada e na gravidade dos casos.</p><h2>Critérios de Avaliação</h2><p>A banca examinadora contou com professores de ambas as áreas, avaliando código limpo, viabilidade clínica, usabilidade e segurança da informação.</p>"
+      },
+      "materiaEnfermagem": {
+        "id": "simulacao-realistica-emergencia-2026",
+        "categoria": "Enfermagem",
+        "titulo": "Simulação realística prepara estudantes para paradas cardiorrespiratórias",
+        "resumo": "Uso de manequins inteligentes de alta fidelidade coloca à prova protocolos de reanimação e liderança de equipe.",
+        "imagem": "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?w=800&auto=format&fit=crop&q=60",
+        "autor": "Prof. Ricardo Oliveira",
+        "tempoLeitura": "3 min",
+        "conteudo": "<p>A simulação clínica realística tem se consolidado como o padrão-ouro no ensino de enfermagem. Nesta semana, os alunos do último semestre participaram de um cenário intensivo de Suporte Avançado de Vida.</p><p>Com sensores integrados a monitores multiparamétricos virtuais, os instrutores puderam programar arritmias complexas e avaliar a tomada de decisão em tempo real.</p><h2>Foco no Fator Humano</h2><p>Além da técnica de compressão torácica e ventilação, o treinamento avaliou a comunicação em alça fechada e a divisão de papéis entre enfermeiros e técnicos.</p>"
+      },
+      "enquete": {
+        "pergunta": "Qual tema você gostaria de ver aprofundado na próxima edição temática?",
+        "opcoes": [
+          "Inteligência Artificial aplicada a diagnósticos de enfermagem",
+          "Boas práticas de segurança do paciente e administração medicamentosa",
+          "LGPD e segurança de dados médicos em sistemas web",
+          "Oportunidades de estágio e mercado técnico em 2027"
+        ],
+        "linkVotacao": "https://forms.gle/exemplo",
+        "qrCodeImg": "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fforms.gle%2Fexemplo"
+      }
+    },
+    {
+      "id": "2026-11",
+      "numero": 11,
+      "ano": 2026,
+      "data": "24 de agosto de 2026",
+      "tema": "Telemedicina e Atenção Básica",
+      "destaquePrincipal": {
+        "id": "telemedicina-atencao-basica-2026",
+        "categoria": "Destaque",
+        "titulo": "Plataforma de teleconsulta escolar atinge marca de 500 atendimentos",
+        "resumo": "Software comunitário reduz filas em postos de saúde parceiros na região metropolitana.",
+        "imagem": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&auto=format&fit=crop&q=60",
+        "autor": "Redação",
+        "tempoLeitura": "4 min",
+        "conteudo": "<p>A plataforma desenvolvida pelos alunos no primeiro semestre atingiu nesta segunda-feira a marca de 500 consultas remotas de orientação básica supervisionadas por preceptores.</p>"
+      },
+      "materiaDS": {
+        "id": "acessibilidade-web-saude-2026",
+        "categoria": "Desenvolvimento de Sistemas",
+        "titulo": "Diretrizes de acessibilidade WCAG são implementadas nos portais escolares",
+        "resumo": "Novos padrões garantem navegação fluida para pessoas com deficiência visual e motora.",
+        "imagem": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=60",
+        "autor": "Gabriel Costa (4º DS)",
+        "tempoLeitura": "3 min",
+        "conteudo": "<p>A acessibilidade digital não é um adicional, mas uma exigência legal e ética fundamental para sistemas públicos de saúde.</p>"
+      },
+      "materiaEnfermagem": {
+        "id": "campanha-vacinacao-escola-2026",
+        "categoria": "Enfermagem",
+        "titulo": "Campanha de atualização vacinal mobiliza mais de 800 jovens",
+        "resumo": "Estudantes atuaram na triagem, conservação de imunobiológicos e aplicação de doses.",
+        "imagem": "https://images.pexels.com/photos/8736362/pexels-photo-8736362.jpeg",
+        "autor": "Juliana Ferreira (2º Enf)",
+        "tempoLeitura": "3 min",
+        "conteudo": "<p>A escola serviu como polo avançado de imunização em parceria com a Secretaria Municipal de Saúde.</p>"
+      },
+      "enquete": {
+        "pergunta": "Qual oficina prática você prefere no próximo sábado letivo?",
+        "opcoes": [
+          "Oficina de Git e GitHub para iniciantes",
+          "Punção Venosa e Cálculo de Medicamentos",
+          "Introdução a Python para Análise de Dados de Saúde"
+        ],
+        "linkVotacao": "https://forms.gle/exemplo",
+        "qrCodeImg": "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fforms.gle%2Fexemplo"
+      }
+    }
+  ]
+}

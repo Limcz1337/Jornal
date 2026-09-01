@@ -1,0 +1,53 @@
+{
+  "edicaoAtual": "2026-15",
+  "edicoes": [
+    {
+      "id": "2026-15",
+      "numero": 15,
+      "ano": 2026,
+      "data": "01 de setembro de 2026",
+      "tema": "E-Sports: Tecnologia, Competição e Saúde",
+      "destaquePrincipal": {
+        "id": "e-sports-a-nova-arena-da-tecnologia-e-da-competicao-global-2026",
+        "categoria": "Integração DS + Enfermagem",
+        "titulo": " E-Sports: A Nova Arena da Tecnologia e da Competição Global",
+        "resumo": "Muito além dos videogames: os esportes eletrônicos movimentam bilhões, criam carreiras profissionais e exigem uma combinação de estratégia, reflexos e tecnologia de ponta no Brasil e no mundo.\n\n",
+        "imagem": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&auto=format&fit=crop&q=60",
+        "autor": "Redação Integrada",
+        "tempoLeitura": "6 min",
+        "conteudo": "<p class='lead'>O que antes era visto como simples passatempo tornou-se um dos fenômenos culturais e econômicos mais impactantes do século XXI. Os Esportes Eletrônicos, ou E-Sports, transformaram os jogos digitais em competições profissionais de altíssimo nível, atraindo milhões de espectadores e patrocinadores de peso.</p><p>Grandes marcas de tecnologia, montadoras de veículos e até clubes de futebol tradicionais estão investindo pesado na criação de equipes próprias. No Brasil, campeonatos de jogos como <em>League of Legends</em>, <em>Valorant</em> e <em>Counter-Strike</em> lotam arenas e quebram recordes de audiência.</p><h2>Tecnologia e Infraestrutura</h2><p>Para que uma partida seja justa e emocionante, é necessária uma infraestrutura de engenharia extremamente complexa. Servidores dedicados com baixíssima latência, sistemas anti-cheat em tempo real e redes de fibra óptica são essenciais para garantir a integridade da competição.</p><p><em>'A tecnologia é a espinha dorsal dos e-sports, sem ela não existe competição profissional'</em>, destaca o engenheiro de redes da equipe brasileira, Marcos Vieira.</p>"
+      },
+      "materiaDS": {
+        "id": "a-engenharia-por-tras-dos-servidores-de-torneios-2026",
+        "categoria": "Desenvolvimento de Sistemas",
+        "titulo": " A Engenharia por Trás dos Servidores de Torneios",
+        "resumo": "Como a baixa latência, os servidores robustos e a computação em nuvem garantem partidas justas e sem travamentos nos maiores campeonatos mundiais.",
+        "imagem": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&auto=format&fit=crop&q=60",
+        "autor": " Equipe DS",
+        "tempoLeitura": "4 min",
+        "conteudo": "<p>A infraestrutura de <strong>servidores de alta performance</strong> é o coração de qualquer torneio profissional de e-sports. Diferente de jogar em casa, uma competição oficial exige que cada milissegundo de atraso (latência) seja eliminado para garantir igualdade entre os competidores.</p><p>Além do hardware, a <strong>computação em nuvem</strong> entra em cena para analisar o desempenho dos atletas, armazenar replays e sugerir novas estratégias de jogo através de inteligência artificial.</p>"
+      },
+      "materiaEnfermagem": {
+        "id": "ergonomia-e-saude-mental-o-lado-oculto-dos-gamers-profissionais-2026",
+        "categoria": "Enfermagem",
+        "titulo": "Ergonomia e Saúde Mental: O Lado Oculto dos Gamers Profissionais",
+        "resumo": "Lesões posturais, LER e a pressão psicológica das grandes finais: como a medicina esportiva está se adaptando aos atletas digitais",
+        "imagem": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&auto=format&fit=crop&q=6",
+        "autor": "Equipe Enfermagem",
+        "tempoLeitura": "4 min",
+        "conteudo": "<p>Ser um atleta de e-sports vai muito além de usar o mouse e o teclado. Os profissionais mantêm rotinas de treino de 8 a 10 horas por dia, o que exige acompanhamento rigoroso de <strong>fisioterapeutas</strong> para prevenir lesões por esforço repetitivo (LER) e graves problemas posturais.</p><p>Além disso, a pressão das finais coloca a <strong>saúde mental</strong> em foco. Psicólogos esportivos integram as comissões técnicas para lidar com a ansiedade, o estresse e a constante exposição nas redes sociais.</p>"
+      },
+      "enquete": {
+        "pergunta": "Qual tecnologia você considera mais crucial para o futuro dos E-Sports?",
+        "opcoes": [
+          "Servidores e Redes de Baixa Latência",
+          "Inteligência Artificial para Treinamento",
+          "Monitoramento Biométrico de Atletas",
+          "Plataformas de Streaming e Transmissão"
+        ],
+        "linkVotacao": "https://docs.google.com/forms/d/e/1FAIpQLSfeSXvfJI0jQ-NKzu3uciZ8v4GHIo_nkZzPgWaeOZmmGrSSng/viewform?usp=publish-editor",
+        "qrCodeImg": "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSfeSXvfJI0jQ-NKzu3uciZ8v4GHIo_nkZzPgWaeOZmmGrSSng%2Fviewform%3Fusp%3Dpublish-editor"
+      }
+    }
+  ]
+}

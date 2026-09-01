@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arquivo de Edições · Ecos Técnicos</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <aside class="tarja-responsabilidade">
+    <div class="container tarja-flex">
+      <div class="tarja-texto">
+        <i class="fas fa-archive"></i>
+        <span>Repositório histórico de edições digitais acadêmicas.</span>
+      </div>
+      <a href="sobre.html" class="tarja-link">Sobre o Projeto</a>
+    </div>
+  </aside>
+
+  <header class="header-principal">
+    <div class="container header-grid">
+      <div class="header-marca">
+        <span class="subtitulo-topo">Acervo Completo</span>
+        <h1 class="titulo-jornal"><a href="index.html">ECOS TÉCNICOS</a></h1>
+        <p class="cursos-badge">Histórico Anual de Publicações</p>
+      </div>
+    </div>
+    <nav class="nav-principal">
+      <div class="container">
+        <ul class="nav-links">
+          <li><a href="index.html"><i class="fas fa-newspaper"></i> Capa da Semana</a></li>
+          <li><a href="arquivo.html" class="active"><i class="fas fa-archive"></i> Edições Anteriores</a></li>
+          <li><a href="sobre.html"><i class="fas fa-info-circle"></i> Equipe & Diretrizes</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container secao-principal">
+    <div class="divisor-secao">
+      <h2><i class="fas fa-calendar-alt"></i> Edições Publicadas</h2>
+      <div class="linha-decorativa"></div>
+    </div>
+
+    <div class="grid-arquivo" id="containerArquivo">
+      <div class="loading-box"><i class="fas fa-spinner fa-spin"></i> Carregando acervo de edições...</div>
+    </div>
+  </main>
+
+  <footer class="footer-principal">
+    <div class="container footer-bottom-text">
+      <p>&copy; 2026 Jornal Ecos Técnicos &bull; Memória Histórica Escolar</p>
+    </div>
+  </footer>
+
+  <script src="js/data-service.js"></script>
+  <script src="js/arquivo.js"></script>
+</body>
+</html>

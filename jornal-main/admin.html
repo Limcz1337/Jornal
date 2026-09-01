@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Editorial · Gestor do WebJornal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --cor-ds: #4338ca;
+      --cor-enf: #059669;
+      --cor-destaque: #c2410c;
+      --fundo: #0f172a;
+      --texto: #1e293b;
+      --borda: #cbd5e1;
+      --raio: 8px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: #f1f5f9; color: var(--texto); padding-bottom: 60px; }
+
+    /* Barra Superior */
+    .topbar { background: var(--fundo); color: #fff; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+    .topbar h1 { font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+    .topbar-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+
+    .btn { padding: 8px 14px; border-radius: 6px; font-size: 0.85rem; font-weight: 700; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; }
+    .btn-primario { background: var(--cor-ds); color: #fff; }
+    .btn-primario:hover { background: #3730a3; }
+    .btn-sucesso { background: var(--cor-enf); color: #fff; }
+    .btn-sucesso:hover { background: #047857; }
+    .btn-backup { background: #d97706; color: #fff; }
+    .btn-backup:hover { background: #b45309; }
+    .btn-secundario { background: #334155; color: #fff; }
+    .btn-secundario:hover { background: #475569; }
+    .btn-perigo { background: #ef4444; color: #fff; }
+    .btn-perigo:hover { background: #dc2626; }
+
+    .container { max-width: 1200px; margin: 24px auto; padding: 0 16px; }
+
+    /* Barra de Seleção de Edição */
+    .painel-edicao { background: #fff; padding: 18px 24px; border-radius: var(--raio); border: 1px solid var(--borda); margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.04); }
+    .seletor-grupo { display: flex; align-items: center; gap: 12px; }
+    .seletor-grupo select { padding: 8px 12px; border-radius: 6px; border: 1px solid var(--borda); font-size: 0.95rem; font-weight: bold; }
+
+    /* Grid do Formulário */
+    .grid-admin { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .full-width { grid-column: 1 / -1; }
+
+    .card-secao { background: #fff; border-radius: var(--raio); border: 1px solid var(--borda); overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.04); }
+    .card-cabecalho { padding: 12px 18px; color: #fff; font-size: 1rem; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+    .cabecalho-destaque { background: var(--cor-destaque); }
+    .cabecalho-ds { background: var(--cor-ds); }
+    .cabecalho-enf { background: var(--cor-enf); }
+    .cabecalho-geral { background: #0f172a; }
+    .cabecalho-enquete { background: #6b21a8; }
+
+    .card-corpo { padding: 18px; }
+
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 0.8rem; font-weight: 700; color: #475569; margin-bottom: 4px; }
+    .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 8px 10px; border: 1px solid var(--borda); border-radius: 6px; font-size: 0.9rem; }
+    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--cor-ds); }
+
+    /* Barra de Ajuda HTML para Textareas */
+    .toolbar-html { display: flex; gap: 4px; margin-bottom: 4px; }
+    .toolbar-html button { background: #e2e8f0; border: 1px solid #cbd5e1; border-radius: 4px; padding: 2px 8px; font-size: 0.75rem; font-weight: bold; cursor: pointer; }
+    .toolbar-html button:hover { background: #cbd5e1; }
+
+    .tag-atual { background: #22c55e; color: #fff; font-size: 0.75rem; padding: 4px 10px; border-radius: 12px; font-weight: bold; }
+    .notificacao { position: fixed; bottom: 20px; right: 20px; background: #0f172a; color: #fff; padding: 12px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: none; z-index: 1000; }
+
+    .enquete-opcao-item { display: flex; gap: 6px; margin-bottom: 6px; }
+
+    @media (max-width: 900px) {
+      .grid-admin { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOPO ADMINISTRATIVO -->
+  <header class="topbar">
+    <h1><i class="fas fa-newspaper"></i> Gestor Editorial &bull; Ecos Técnicos</h1>
+    <div class="topbar-actions">
+      <input type="file" id="inputFile" accept=".json" style="display: none;" onchange="importarArquivoJSON(event)">
+      <button class="btn btn-secundario" onclick="document.getElementById('inputFile').click()"><i class="fas fa-upload"></i> Importar JSON</button>
+      <button class="btn btn-backup" onclick="exportarBackup()"><i class="fas fa-shield-alt"></i> Baixar Backup Datado</button>
+      <button class="btn btn-sucesso" onclick="exportarEdicoesJSON()"><i class="fas fa-download"></i> <strong>Exportar edicoes.json</strong></button>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- SELETOR E AÇÕES DA EDIÇÃO -->
+    <section class="painel-edicao">
+      <div class="seletor-grupo">
+        <label for="selectEdicoes"><strong>Edição Selecionada:</strong></label>
+        <select id="selectEdicoes" onchange="trocarEdicao()"></select>
+        <span id="badgeEdicaoAtual" class="tag-atual" style="display: none;">★ Capa Atual Vigente</span>
+      </div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <button class="btn btn-primario" onclick="criarNovaEdicao()"><i class="fas fa-plus"></i> Nova Edição (Clonar Base)</button>
+        <button class="btn btn-sucesso" onclick="definirComoEdicaoAtual()"><i class="fas fa-check-circle"></i> Definir como Capa Vigente</button>
+        <button class="btn btn-perigo" onclick="excluirEdicaoAtual()"><i class="fas fa-trash"></i></button>
+      </div>
+    </section>
+
+    <!-- FORMULÁRIO COMPLETO -->
+    <form id="formPrincipal" onsubmit="event.preventDefault(); salvarEdicaoNaMemoria();">
+      <div class="grid-admin">
+
+        <!-- METADADOS DA EDIÇÃO -->
+        <div class="card-secao full-width">
+          <div class="card-cabecalho cabecalho-geral">
+            <span><i class="fas fa-cog"></i> Informações da Edição</span>
+          </div>
+          <div class="card-corpo" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+            <div class="form-group">
+              <label>Número da Edição:</label>
+              <input type="number" id="ed_numero" required oninput="atualizarIdEdicao()">
+            </div>
+            <div class="form-group">
+              <label>Ano Letivo:</label>
+              <input type="number" id="ed_ano" required oninput="atualizarIdEdicao()">
+            </div>
+            <div class="form-group">
+              <label>Identificador Interno (ID):</label>
+              <input type="text" id="ed_id" readonly style="background: #f8fafc; font-weight: bold;">
+            </div>
+            <div class="form-group">
+              <label>Data por Extenso:</label>
+              <input type="text" id="ed_data" required placeholder="Ex: 31 de agosto de 2026">
+            </div>
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label>Tema da Edição:</label>
+              <input type="text" id="ed_tema" required placeholder="Ex: Inovação e Tecnologia em Saúde">
+            </div>
+          </div>
+        </div>
+
+        <!-- NOTÍCIA DE DESTAQUE PRINCIPAL -->
+        <div class="card-secao full-width">
+          <div class="card-cabecalho cabecalho-destaque">
+            <span><i class="fas fa-star"></i> Notícia Principal (Destaque da Capa)</span>
+          </div>
+          <div class="card-corpo">
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 12px;">
+              <div class="form-group">
+                <label>Título da Manchete:</label>
+                <input type="text" id="dest_titulo" required oninput="gerarSlug('dest_titulo', 'dest_id')">
+              </div>
+              <div class="form-group">
+                <label>Slug URL (materia.html?id=...):</label>
+                <input type="text" id="dest_id" required>
+              </div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
+              <div class="form-group">
+                <label>Categoria:</label>
+                <input type="text" id="dest_categoria" value="Integração DS + Enfermagem">
+              </div>
+              <div class="form-group">
+                <label>Autor / Assinatura:</label>
+                <input type="text" id="dest_autor" required>
+              </div>
+              <div class="form-group">
+                <label>Tempo de Leitura:</label>
+                <input type="text" id="dest_tempo" value="5 min">
+              </div>
+              <div class="form-group">
+                <label>URL da Imagem:</label>
+                <input type="text" id="dest_imagem" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Resumo de Capa:</label>
+              <textarea id="dest_resumo" rows="2" required></textarea>
+            </div>
+            <div class="form-group">
+              <label>Conteúdo Completo (HTML):</label>
+              <div class="toolbar-html">
+                <button type="button" onclick="inserirTag('dest_conteudo', '<p>', '</p>')">&lt;p&gt;</button>
+                <button type="button" onclick="inserirTag('dest_conteudo', '<h2>', '</h2>')">&lt;h2&gt;</button>
+                <button type="button" onclick="inserirTag('dest_conteudo', '<strong>', '</strong>')">Negrito</button>
+                <button type="button" onclick="inserirTag('dest_conteudo', '<em>', '</em>')">Itálico</button>
+                <button type="button" onclick="inserirTag('dest_conteudo', '<blockquote>', '</blockquote>')">Citação</button>
+              </div>
+              <textarea id="dest_conteudo" rows="6" required></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- MATÉRIA DESENVOLVIMENTO DE SISTEMAS -->
+        <div class="card-secao">
+          <div class="card-cabecalho cabecalho-ds">
+            <span><i class="fas fa-laptop-code"></i> Matéria de DS</span>
+          </div>
+          <div class="card-corpo">
+            <div class="form-group">
+              <label>Título:</label>
+              <input type="text" id="ds_titulo" required oninput="gerarSlug('ds_titulo', 'ds_id')">
+            </div>
+            <div class="form-group">
+              <label>Slug URL:</label>
+              <input type="text" id="ds_id" required>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <div class="form-group">
+                <label>Autor:</label>
+                <input type="text" id="ds_autor" required>
+              </div>
+              <div class="form-group">
+                <label>Tempo Leitura:</label>
+                <input type="text" id="ds_tempo" value="4 min">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>URL da Imagem:</label>
+              <input type="text" id="ds_imagem" required>
+            </div>
+            <div class="form-group">
+              <label>Resumo:</label>
+              <textarea id="ds_resumo" rows="2" required></textarea>
+            </div>
+            <div class="form-group">
+              <label>Conteúdo Completo (HTML):</label>
+              <div class="toolbar-html">
+                <button type="button" onclick="inserirTag('ds_conteudo', '<p>', '</p>')">&lt;p&gt;</button>
+                <button type="button" onclick="inserirTag('ds_conteudo', '<h2>', '</h2>')">&lt;h2&gt;</button>
+                <button type="button" onclick="inserirTag('ds_conteudo', '<strong>', '</strong>')">Negrito</button>
+              </div>
+              <textarea id="ds_conteudo" rows="5" required></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- MATÉRIA ENFERMAGEM -->
+        <div class="card-secao">
+          <div class="card-cabecalho cabecalho-enf">
+            <span><i class="fas fa-user-md"></i> Matéria de Enfermagem</span>
+          </div>
+          <div class="card-corpo">
+            <div class="form-group">
+              <label>Título:</label>
+              <input type="text" id="enf_titulo" required oninput="gerarSlug('enf_titulo', 'enf_id')">
+            </div>
+            <div class="form-group">
+              <label>Slug URL:</label>
+              <input type="text" id="enf_id" required>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <div class="form-group">
+                <label>Autor:</label>
+                <input type="text" id="enf_autor" required>
+              </div>
+              <div class="form-group">
+                <label>Tempo Leitura:</label>
+                <input type="text" id="enf_tempo" value="3 min">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>URL da Imagem:</label>
+              <input type="text" id="enf_imagem" required>
+            </div>
+            <div class="form-group">
+              <label>Resumo:</label>
+              <textarea id="enf_resumo" rows="2" required></textarea>
+            </div>
+            <div class="form-group">
+              <label>Conteúdo Completo (HTML):</label>
+              <div class="toolbar-html">
+                <button type="button" onclick="inserirTag('enf_conteudo', '<p>', '</p>')">&lt;p&gt;</button>
+                <button type="button" onclick="inserirTag('enf_conteudo', '<h2>', '</h2>')">&lt;h2&gt;</button>
+                <button type="button" onclick="inserirTag('enf_conteudo', '<strong>', '</strong>')">Negrito</button>
+              </div>
+              <textarea id="enf_conteudo" rows="5" required></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- ENQUETE E QR CODE -->
+        <div class="card-secao full-width">
+          <div class="card-cabecalho cabecalho-enquete">
+            <span><i class="fas fa-poll"></i> Enquete da Semana e QR Code</span>
+          </div>
+          <div class="card-corpo" style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+            <div>
+              <div class="form-group">
+                <label>Pergunta da Enquete:</label>
+                <input type="text" id="enq_pergunta" required>
+              </div>
+              <div class="form-group">
+                <label>Opções de Resposta:</label>
+                <div id="containerOpcoesEnquete"></div>
+                <button type="button" class="btn btn-secundario" style="margin-top: 6px;" onclick="adicionarOpcaoEnquete()"><i class="fas fa-plus"></i> Adicionar Opção</button>
+              </div>
+              <div class="form-group" style="margin-top: 10px;">
+                <label>Link de Resposta da Enquete:</label>
+                <input type="url" id="enq_link" required oninput="atualizarQrCodePreview()" placeholder="https://forms.gle/exemplo">
+              </div>
+            </div>
+            
+            <div style="text-align: center; background: #f8fafc; padding: 14px; border-radius: 6px; border: 1px solid var(--borda);">
+              <label style="font-weight: bold; font-size: 0.8rem; display: block; margin-bottom: 8px;">Prévia do QR Code:</label>
+              <img id="enq_qr_preview" src="" alt="QR Code" style="width: 140px; height: 140px; margin: 0 auto; background: #fff; padding: 4px; border: 1px solid #cbd5e1; border-radius: 6px;">
+              <small style="display: block; color: #64748b; margin-top: 6px;">Gerado em tempo real com base no link.</small>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="margin-top: 20px; text-align: right;">
+        <button type="submit" class="btn btn-sucesso" style="font-size: 1rem; padding: 12px 24px;"><i class="fas fa-save"></i> Guardar Alterações desta Edição</button>
+      </div>
+    </form>
+
+  </div>
+
+  <div id="notificacao" class="notificacao"></div>
+
+  <script>
+    let bancoDados = {
+      edicaoAtual: "",
+      edicoes: []
+    };
+
+    let indiceEdicaoSelecionada = 0;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const res = await fetch('./data/edicoes.json');
+        if (res.ok) {
+          bancoDados = await res.json();
+          mostrarNotificacao("✓ Dados carregados de ./data/edicoes.json");
+        } else {
+          throw new Error();
+        }
+      } catch (e) {
+        mostrarNotificacao("ℹ️ Importe um JSON existente ou crie uma edição.");
+        if (bancoDados.edicoes.length === 0) {
+          criarNovaEdicaoInicial();
+        }
+      }
+      atualizarSelectEdicoes();
+      carregarEdicaoNoFormulario(0);
+    });
+
+    function atualizarSelectEdicoes() {
+      const select = document.getElementById('selectEdicoes');
+      select.innerHTML = '';
+      bancoDados.edicoes.forEach((ed, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = `Edição #${ed.numero} (${ed.data}) - ${ed.tema || 'Sem tema'}`;
+        if (ed.id === bancoDados.edicaoAtual) {
+          option.textContent += ' ★ CAPA VIGENTE';
+        }
+        select.appendChild(option);
+      });
+      select.value = indiceEdicaoSelecionada;
+      verificarBadgeAtiva();
+    }
+
+    function verificarBadgeAtiva() {
+      const ed = bancoDados.edicoes[indiceEdicaoSelecionada];
+      const badge = document.getElementById('badgeEdicaoAtual');
+      if (ed && ed.id === bancoDados.edicaoAtual) {
+        badge.style.display = 'inline-block';
+      } else {
+        badge.style.display = 'none';
+      }
+    }
+
+    function trocarEdicao() {
+      salvarEdicaoNaMemoria(false);
+      indiceEdicaoSelecionada = parseInt(document.getElementById('selectEdicoes').value);
+      carregarEdicaoNoFormulario(indiceEdicaoSelecionada);
+      verificarBadgeAtiva();
+    }
+
+    function carregarEdicaoNoFormulario(index) {
+      const ed = bancoDados.edicoes[index];
+      if (!ed) return;
+
+      document.getElementById('ed_numero').value = ed.numero || '';
+      document.getElementById('ed_ano').value = ed.ano || 2026;
+      document.getElementById('ed_id').value = ed.id || '';
+      document.getElementById('ed_data').value = ed.data || '';
+      document.getElementById('ed_tema').value = ed.tema || '';
+
+      const dest = ed.destaquePrincipal || {};
+      document.getElementById('dest_titulo').value = dest.titulo || '';
+      document.getElementById('dest_id').value = dest.id || '';
+      document.getElementById('dest_categoria').value = dest.categoria || 'Integração DS + Enfermagem';
+      document.getElementById('dest_autor').value = dest.autor || '';
+      document.getElementById('dest_tempo').value = dest.tempoLeitura || '5 min';
+      document.getElementById('dest_imagem').value = dest.imagem || '';
+      document.getElementById('dest_resumo').value = dest.resumo || '';
+      document.getElementById('dest_conteudo').value = dest.conteudo || '';
+
+      const ds = ed.materiaDS || {};
+      document.getElementById('ds_titulo').value = ds.titulo || '';
+      document.getElementById('ds_id').value = ds.id || '';
+      document.getElementById('ds_autor').value = ds.autor || '';
+      document.getElementById('ds_tempo').value = ds.tempoLeitura || '4 min';
+      document.getElementById('ds_imagem').value = ds.imagem || '';
+      document.getElementById('ds_resumo').value = ds.resumo || '';
+      document.getElementById('ds_conteudo').value = ds.conteudo || '';
+
+      const enf = ed.materiaEnfermagem || {};
+      document.getElementById('enf_titulo').value = enf.titulo || '';
+      document.getElementById('enf_id').value = enf.id || '';
+      document.getElementById('enf_autor').value = enf.autor || '';
+      document.getElementById('enf_tempo').value = enf.tempoLeitura || '3 min';
+      document.getElementById('enf_imagem').value = enf.imagem || '';
+      document.getElementById('enf_resumo').value = enf.resumo || '';
+      document.getElementById('enf_conteudo').value = enf.conteudo || '';
+
+      const enq = ed.enquete || { opcoes: [] };
+      document.getElementById('enq_pergunta').value = enq.pergunta || '';
+      document.getElementById('enq_link').value = enq.linkVotacao || '';
+      
+      const containerOpcoes = document.getElementById('containerOpcoesEnquete');
+      containerOpcoes.innerHTML = '';
+      (enq.opcoes || ["Opção A", "Opção B"]).forEach(op => {
+        adicionarOpcaoEnquete(op);
+      });
+
+      atualizarQrCodePreview();
+    }
+
+    function salvarEdicaoNaMemoria(mostrarAviso = true) {
+      const edId = document.getElementById('ed_id').value;
+      const opcoesEnquete = Array.from(document.querySelectorAll('.input-enquete-opcao'))
+        .map(input => input.value)
+        .filter(val => val.trim() !== '');
+
+      const linkVoto = document.getElementById('enq_link').value;
+      const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(linkVoto)}`;
+
+      bancoDados.edicoes[indiceEdicaoSelecionada] = {
+        id: edId,
+        numero: parseInt(document.getElementById('ed_numero').value) || 1,
+        ano: parseInt(document.getElementById('ed_ano').value) || 2026,
+        data: document.getElementById('ed_data').value,
+        tema: document.getElementById('ed_tema').value,
+        destaquePrincipal: {
+          id: document.getElementById('dest_id').value,
+          categoria: document.getElementById('dest_categoria').value,
+          titulo: document.getElementById('dest_titulo').value,
+          resumo: document.getElementById('dest_resumo').value,
+          imagem: document.getElementById('dest_imagem').value,
+          autor: document.getElementById('dest_autor').value,
+          tempoLeitura: document.getElementById('dest_tempo').value,
+          conteudo: document.getElementById('dest_conteudo').value
+        },
+        materiaDS: {
+          id: document.getElementById('ds_id').value,
+          categoria: "Desenvolvimento de Sistemas",
+          titulo: document.getElementById('ds_titulo').value,
+          resumo: document.getElementById('ds_resumo').value,
+          imagem: document.getElementById('ds_imagem').value,
+          autor: document.getElementById('ds_autor').value,
+          tempoLeitura: document.getElementById('ds_tempo').value,
+          conteudo: document.getElementById('ds_conteudo').value
+        },
+        materiaEnfermagem: {
+          id: document.getElementById('enf_id').value,
+          categoria: "Enfermagem",
+          titulo: document.getElementById('enf_titulo').value,
+          resumo: document.getElementById('enf_resumo').value,
+          imagem: document.getElementById('enf_imagem').value,
+          autor: document.getElementById('enf_autor').value,
+          tempoLeitura: document.getElementById('enf_tempo').value,
+          conteudo: document.getElementById('enf_conteudo').value
+        },
+        enquete: {
+          pergunta: document.getElementById('enq_pergunta').value,
+          opcoes: opcoesEnquete,
+          linkVotacao: linkVoto,
+          qrCodeImg: qrCodeUrl
+        }
+      };
+
+      if (!bancoDados.edicaoAtual) {
+        bancoDados.edicaoAtual = edId;
+      }
+
+      if (mostrarAviso) {
+        mostrarNotificacao("✓ Alterações salvas na memória do painel!");
+        atualizarSelectEdicoes();
+      }
+    }
+
+    function criarNovaEdicao() {
+      salvarEdicaoNaMemoria(false);
+      const ultimoNumero = bancoDados.edicoes.length > 0 ? Math.max(...bancoDados.edicoes.map(e => e.numero || 0)) : 0;
+      const novoNumero = ultimoNumero + 1;
+      const novoAno = 2026;
+      const novoId = `${novoAno}-${novoNumero}`;
+
+      const novaEd = {
+        id: novoId,
+        numero: novoNumero,
+        ano: novoAno,
+        data: "Data da Edição",
+        tema: "Novo Tema da Semana",
+        destaquePrincipal: { id: `destaque-${novoNumero}`, categoria: "Integração DS + Enfermagem", titulo: "Título do Destaque", resumo: "Resumo em 2 linhas...", imagem: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800", autor: "Redação", tempoLeitura: "4 min", conteudo: "<p>Conteúdo da notícia principal...</p>" },
+        materiaDS: { id: `ds-materia-${novoNumero}`, categoria: "Desenvolvimento de Sistemas", titulo: "Título da Matéria de DS", resumo: "Resumo de tecnologia...", imagem: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800", autor: "Aluno DS", tempoLeitura: "3 min", conteudo: "<p>Conteúdo da matéria de DS...</p>" },
+        materiaEnfermagem: { id: `enf-materia-${novoNumero}`, categoria: "Enfermagem", titulo: "Título da Matéria de Enfermagem", resumo: "Resumo de saúde...", imagem: "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?w=800", autor: "Aluno Enf", tempoLeitura: "3 min", conteudo: "<p>Conteúdo da matéria de Enfermagem...</p>" },
+        enquete: { pergunta: "Qual tema você prefere?", opcoes: ["Opção 1", "Opção 2", "Opção 3"], linkVotacao: "https://forms.gle/exemplo", qrCodeImg: "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://forms.gle/exemplo" }
+      };
+
+      bancoDados.edicoes.unshift(novaEd);
+      indiceEdicaoSelecionada = 0;
+      atualizarSelectEdicoes();
+      carregarEdicaoNoFormulario(0);
+      mostrarNotificacao(`✓ Nova Edição #${novoNumero} criada com sucesso!`);
+    }
+
+    function definirComoEdicaoAtual() {
+      salvarEdicaoNaMemoria(false);
+      const ed = bancoDados.edicoes[indiceEdicaoSelecionada];
+      bancoDados.edicaoAtual = ed.id;
+      atualizarSelectEdicoes();
+      mostrarNotificacao(`★ A Edição #${ed.numero} foi definida como a CAPA VIGENTE!`);
+    }
+
+    function excluirEdicaoAtual() {
+      if (bancoDados.edicoes.length <= 1) {
+        alert("Você não pode excluir a única edição do arquivo.");
+        return;
+      }
+      if (confirm(`Excluir a Edição #${bancoDados.edicoes[indiceEdicaoSelecionada].numero}?`)) {
+        bancoDados.edicoes.splice(indiceEdicaoSelecionada, 1);
+        indiceEdicaoSelecionada = 0;
+        if (!bancoDados.edicoes.some(e => e.id === bancoDados.edicaoAtual)) {
+          bancoDados.edicaoAtual = bancoDados.edicoes[0].id;
+        }
+        atualizarSelectEdicoes();
+        carregarEdicaoNoFormulario(0);
+        mostrarNotificacao("Edição excluída.");
+      }
+    }
+
+    function exportarEdicoesJSON() {
+      salvarEdicaoNaMemoria(false);
+      const jsonStr = JSON.stringify(bancoDados, null, 2);
+      downloadArquivo(jsonStr, 'edicoes.json', 'application/json');
+      mostrarNotificacao("✓ 'edicoes.json' baixado! Mova-o para a pasta data/ do projeto.");
+    }
+
+    function exportarBackup() {
+      salvarEdicaoNaMemoria(false);
+      const dataHoje = new Date().toISOString().slice(0, 10);
+      const jsonStr = JSON.stringify(bancoDados, null, 2);
+      downloadArquivo(jsonStr, `backup-edicoes-${dataHoje}.json`, 'application/json');
+      mostrarNotificacao(`✓ Backup baixado (backup-edicoes-${dataHoje}.json)`);
+    }
+
+    function importarArquivoJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const dadosImportados = JSON.parse(e.target.result);
+          if (dadosImportados.edicoes && Array.isArray(dadosImportados.edicoes)) {
+            bancoDados = dadosImportados;
+            indiceEdicaoSelecionada = 0;
+            atualizarSelectEdicoes();
+            carregarEdicaoNoFormulario(0);
+            mostrarNotificacao("✓ JSON importado com sucesso!");
+          } else {
+            alert("Formato inválido de JSON para o jornal.");
+          }
+        } catch (err) {
+          alert("Erro: Sintaxe de JSON inválida.");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function atualizarIdEdicao() {
+      const num = document.getElementById('ed_numero').value;
+      const ano = document.getElementById('ed_ano').value;
+      document.getElementById('ed_id').value = `${ano}-${num}`;
+    }
+
+    function gerarSlug(idOrigem, idDestino) {
+      const texto = document.getElementById(idOrigem).value;
+      const ano = document.getElementById('ed_ano').value || '2026';
+      const slug = texto
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .trim()
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-');
+      document.getElementById(idDestino).value = slug ? `${slug}-${ano}` : '';
+    }
+
+    function inserirTag(textareaId, tagAbre, tagFecha) {
+      const area = document.getElementById(textareaId);
+      const start = area.selectionStart;
+      const end = area.selectionEnd;
+      const text = area.value;
+      const selected = text.substring(start, end) || 'texto';
+      area.value = text.substring(0, start) + tagAbre + selected + tagFecha + text.substring(end);
+      area.focus();
+    }
+
+    function adicionarOpcaoEnquete(valor = "") {
+      const container = document.getElementById('containerOpcoesEnquete');
+      const div = document.createElement('div');
+      div.className = 'enquete-opcao-item';
+      div.innerHTML = `
+        <input type="text" class="input-enquete-opcao" value="${valor}" placeholder="Opção de resposta..." required>
+        <button type="button" class="btn btn-perigo" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></button>
+      `;
+      container.appendChild(div);
+    }
+
+    function atualizarQrCodePreview() {
+      const link = document.getElementById('enq_link').value || 'https://escola.edu.br';
+      document.getElementById('enq_qr_preview').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(link)}`;
+    }
+
+    function downloadArquivo(conteudo, nomeArquivo, tipo) {
+      const blob = new Blob([conteudo], { type: tipo });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = nomeArquivo;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    function mostrarNotificacao(texto) {
+      const notif = document.getElementById('notificacao');
+      notif.textContent = texto;
+      notif.style.display = 'block';
+      setTimeout(() => { notif.style.display = 'none'; }, 4000);
+    }
+  </script>
+</body>
+</html>
